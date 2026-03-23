@@ -6,7 +6,6 @@ import app.aaps.core.interfaces.logging.AAPSLogger
 import app.aaps.core.interfaces.notifications.NotificationManager
 import app.aaps.core.keys.interfaces.Preferences
 import app.aaps.pump.dana.di.DanaHistoryModule
-import app.aaps.pump.dana.di.DanaModule
 import app.aaps.pump.dana.keys.DanaStringKey
 import app.aaps.pump.danar.di.DanaRModule
 import app.aaps.pump.danars.di.DanaRSModule
@@ -24,7 +23,6 @@ import javax.inject.Singleton
 @Module(
     includes = [
         DanaHistoryModule::class,
-        DanaModule::class,
         DanaRModule::class,
         DanaRSModule::class,
     ]

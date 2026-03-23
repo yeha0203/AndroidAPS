@@ -39,7 +39,6 @@ import app.aaps.core.interfaces.utils.Round.floorTo
 import app.aaps.core.interfaces.utils.Round.roundTo
 import app.aaps.core.interfaces.utils.fabric.FabricPrivacy
 import app.aaps.core.keys.interfaces.Preferences
-import app.aaps.core.keys.interfaces.withEntriesProvider
 import app.aaps.core.objects.constraints.ConstraintObject
 import app.aaps.core.ui.compose.preference.PreferenceSubScreenDef
 import app.aaps.core.ui.toast.ToastUtils
@@ -375,11 +374,6 @@ class DanaRPlugin @Inject constructor(
         key = "danar_settings",
         titleResId = app.aaps.pump.dana.R.string.danar_pump_settings,
         items = listOf(
-            DanaStringKey.RName.withEntriesProvider(
-                provider = { context -> getBondedBluetoothDevices(context).associateWith { it } },
-                emptyEntriesMessageResId = app.aaps.core.ui.R.string.need_connect_permission
-            ),
-            DanaIntKey.Password,
             DanaIntKey.BolusSpeed,
             DanaBooleanKey.UseExtended
         ),

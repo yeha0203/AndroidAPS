@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
     id("android-module-dependencies")
     id("test-module-dependencies")
     id("jacoco-module-dependencies")
@@ -24,6 +25,10 @@ dependencies {
     implementation(project(":core:libraries"))
     implementation(project(":core:ui"))
     implementation(project(":core:utils"))
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
     api(libs.androidx.room)
     api(libs.androidx.room.runtime)

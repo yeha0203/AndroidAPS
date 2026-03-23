@@ -35,7 +35,6 @@ import app.aaps.core.interfaces.utils.DecimalFormatter
 import app.aaps.core.interfaces.utils.Round.roundTo
 import app.aaps.core.keys.interfaces.Preferences
 import app.aaps.core.objects.constraints.ConstraintObject
-import app.aaps.pump.dana.DanaFragment
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.comm.RecordTypes
 import app.aaps.pump.dana.database.DanaHistoryDatabase
@@ -43,6 +42,7 @@ import app.aaps.pump.dana.keys.DanaBooleanKey
 import app.aaps.pump.dana.keys.DanaIntKey
 import app.aaps.pump.dana.keys.DanaIntentKey
 import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.danar.compose.DanaRComposeContent
 import app.aaps.pump.danar.services.AbstractDanaRExecutionService
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -82,7 +82,12 @@ abstract class AbstractDanaRPlugin protected constructor(
 ) : PumpPluginBase(
     pluginDescription = PluginDescription()
         .mainType(PluginType.PUMP)
-        .fragmentClass(DanaFragment::class.java.name)
+        .composeContent { _ ->
+            DanaRComposeContent(
+                pluginName = rh.gs(app.aaps.pump.dana.R.string.danarspump),
+                danaPump = danaPump
+            )
+        }
         .pluginIcon(app.aaps.core.ui.R.drawable.ic_danai_128)
         .pluginName(app.aaps.pump.dana.R.string.danarspump)
         .shortName(app.aaps.pump.dana.R.string.danarpump_shortname)
