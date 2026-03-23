@@ -23,7 +23,7 @@ import app.aaps.core.ui.compose.pump.PumpAction
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.R
 import app.aaps.pump.dana.compose.DanaOverviewViewModel
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danars.DanaRSPlugin
 import app.aaps.pump.danars.services.BleTransport
 import app.aaps.pump.danars.services.PairingState
@@ -68,11 +68,11 @@ class DanaRSOverviewViewModel @Inject constructor(
 
     override fun performUnpair() {
         uel.log(Action.CLEAR_PAIRING_KEYS, Sources.Dana)
-        val address = preferences.get(DanaStringKey.MacAddress)
+        val address = preferences.get(DanaStringNonKey.MacAddress)
         danaRSPlugin.clearPairing()
-        preferences.remove(DanaStringKey.MacAddress)
-        preferences.remove(DanaStringKey.RsName)
-        preferences.remove(DanaStringKey.EmulatorDeviceName)
+        preferences.remove(DanaStringNonKey.MacAddress)
+        preferences.remove(DanaStringNonKey.RsName)
+        preferences.remove(DanaStringNonKey.EmulatorDeviceName)
         if (address.isNotBlank()) bleTransport.adapter.removeBond(address)
         bleTransport.updatePairingState(PairingState(step = PairingStep.IDLE))
         danaRSPlugin.changePump() // resets mDeviceAddress/mDeviceName — makes isConfigured() return false

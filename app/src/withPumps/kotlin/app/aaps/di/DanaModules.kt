@@ -6,7 +6,7 @@ import app.aaps.core.interfaces.logging.AAPSLogger
 import app.aaps.core.interfaces.notifications.NotificationManager
 import app.aaps.core.keys.interfaces.Preferences
 import app.aaps.pump.dana.di.DanaHistoryModule
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danar.di.DanaRModule
 import app.aaps.pump.danars.di.DanaRSModule
 import app.aaps.pump.danars.emulator.EmulatorBleTransport
@@ -51,10 +51,10 @@ class DanaModules {
                 pumpDisplay = NotificationPumpDisplay(notificationManager),
                 aapsLogger = aapsLogger,
                 deviceNameProvider = {
-                    var name = preferences.get(DanaStringKey.EmulatorDeviceName)
+                    var name = preferences.get(DanaStringNonKey.EmulatorDeviceName)
                     if (name.isEmpty()) {
                         name = "UHH${String.format("%05d", (0..99999).random())}TI"
-                        preferences.put(DanaStringKey.EmulatorDeviceName, name)
+                        preferences.put(DanaStringNonKey.EmulatorDeviceName, name)
                     }
                     name
                 }

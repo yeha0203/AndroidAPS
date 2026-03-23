@@ -36,7 +36,7 @@ import app.aaps.core.ui.compose.pump.tickerFlow
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.R
 import app.aaps.pump.dana.events.EventDanaRNewStatus
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -173,7 +173,7 @@ open class DanaOverviewViewModel @Inject constructor(
      */
     open fun performUnpair() {
         uel.log(Action.CLEAR_PAIRING_KEYS, Sources.Dana)
-        preferences.remove(DanaStringKey.RName)
+        preferences.remove(DanaStringNonKey.RName)
         danaPump.reset()
         rxTrigger.value = System.currentTimeMillis()
     }

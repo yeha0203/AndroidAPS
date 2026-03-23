@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="danars_pairing">Pairing</string>
-    <string name="danars_pairingok">Pairing OK</string>
     <string name="danars_pairingtimedout">Pairing timed out</string>
     <string name="danarspump">Dana-i/RS</string>
     <string name="danarspump_shortname">Dana</string>
@@ -94,7 +93,6 @@
     <string name="time_format_24h">24h</string>
     <string name="option_on">On</string>
     <string name="option_off">Off</string>
-    <string name="danar_bt_name_title">DanaR Bluetooth device</string>
     <string name="danars_password_title">Pump password (v1 only)</string>
     <string name="danar_password_title">Pump password</string>
     <string name="danar_useextended_title">Use extended boluses for >200%</string>

@@ -34,7 +34,7 @@ import app.aaps.core.ui.toast.ToastUtils.errorToast
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.R
 import app.aaps.pump.dana.comm.RecordTypes
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danar.SerialIOThread
 import app.aaps.pump.danar.comm.MessageBase
 import app.aaps.pump.danar.comm.MessageHashTableBase
@@ -114,7 +114,7 @@ abstract class AbstractDanaRExecutionService : DaggerService() {
             .subscribe({ event: EventBTChange ->
                            if (event.state === EventBTChange.Change.DISCONNECT) {
                                aapsLogger.debug(LTag.PUMP, "Device was disconnected " + event.deviceName) //Device was disconnected
-                               if (preferences.get(DanaStringKey.RName) == event.deviceName) {
+                               if (preferences.get(DanaStringNonKey.RName) == event.deviceName) {
                                    mSerialIOThread?.disconnect("BT disconnection broadcast")
                                    rxBus.send(EventPumpStatusChanged(EventPumpStatusChanged.Status.DISCONNECTED))
                                }
@@ -191,7 +191,7 @@ abstract class AbstractDanaRExecutionService : DaggerService() {
     }
 
     fun getBTSocketForSelectedPump() {
-        val deviceName = preferences.get(DanaStringKey.RName)
+        val deviceName = preferences.get(DanaStringNonKey.RName)
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
             (context.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager).adapter
                 ?.bondedDevices?.firstOrNull { it.name == deviceName }?.let { mBTDevice ->

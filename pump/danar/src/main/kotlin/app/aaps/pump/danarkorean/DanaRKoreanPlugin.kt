@@ -49,7 +49,8 @@ import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.database.DanaHistoryDatabase
 import app.aaps.pump.dana.keys.DanaBooleanKey
 import app.aaps.pump.dana.keys.DanaIntKey
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaIntNonKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danar.AbstractDanaRPlugin
 import app.aaps.pump.danarkorean.services.DanaRKoreanExecutionService
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -397,26 +398,6 @@ class DanaRKoreanPlugin @Inject constructor(
             key = "danar_korean_settings"
             title = rh.gs(app.aaps.pump.dana.R.string.danar_pump_settings)
             initialExpandedChildrenCount = 0
-            addPreference(
-                AdaptiveListPreference(
-                    ctx = context,
-                    stringKey = DanaStringKey.RName,
-                    title = app.aaps.pump.dana.R.string.danar_bt_name_title,
-                    dialogTitle = app.aaps.pump.dana.R.string.danar_bt_name_title,
-                    entries = entries,
-                    entryValues = entries
-                )
-            )
-            addPreference(
-                AdaptiveIntPreference(
-                    ctx = context, intKey = DanaIntKey.Password, title = app.aaps.pump.dana.R.string.danar_password_title,
-                    validatorParams = DefaultEditTextValidator.Parameters(
-                        testType = EditTextValidator.TEST_REGEXP,
-                        customRegexp = rh.gs(app.aaps.core.validators.R.string.fourdigitnumber),
-                        testErrorString = rh.gs(app.aaps.core.validators.R.string.error_mustbe4digitnumber)
-                    )
-                )
-            )
             addPreference(AdaptiveSwitchPreference(ctx = context, booleanKey = DanaBooleanKey.UseExtended, title = app.aaps.pump.dana.R.string.danar_useextended_title))
         }
     }

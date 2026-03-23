@@ -9,7 +9,7 @@ import app.aaps.core.interfaces.pump.PumpEnactResult
 import app.aaps.core.interfaces.pump.PumpSync
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.comm.RecordTypes
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danar.comm.MessageHashTableBase
 import app.aaps.pump.danar.comm.MsgBolusStop
 import app.aaps.shared.tests.TestBaseWithProfile
@@ -267,7 +267,7 @@ class AbstractDanaRExecutionServiceTest : TestBaseWithProfile() {
 
     @Test
     fun testGetBTSocketForSelectedPump_noBluetoothAdapter() {
-        `when`(preferences.get(DanaStringKey.RName)).thenReturn("TestPump")
+        `when`(preferences.get(DanaStringNonKey.RName)).thenReturn("TestPump")
         `when`(context.getSystemService(Context.BLUETOOTH_SERVICE)).thenReturn(bluetoothManager)
         `when`(bluetoothManager.adapter).thenReturn(null)
 

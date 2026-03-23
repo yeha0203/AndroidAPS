@@ -19,7 +19,8 @@ import app.aaps.core.keys.interfaces.Preferences
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.events.EventDanaRNewStatus
 import app.aaps.pump.dana.keys.DanaIntKey
-import app.aaps.pump.dana.keys.DanaStringKey
+import app.aaps.pump.dana.keys.DanaIntNonKey
+import app.aaps.pump.dana.keys.DanaStringNonKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -75,8 +76,8 @@ class DanaRPairWizardViewModel @Inject constructor(
 
     init {
         // Pre-populate from existing preferences
-        val existingName = preferences.get(DanaStringKey.RName)
-        val existingPassword = preferences.get(DanaIntKey.Password)
+        val existingName = preferences.get(DanaStringNonKey.RName)
+        val existingPassword = preferences.get(DanaIntNonKey.Password)
         if (existingName.isNotEmpty() || existingPassword != 0) {
             _uiState.value = _uiState.value.copy(
                 password = if (existingPassword != 0) existingPassword.toString() else ""
@@ -146,8 +147,8 @@ class DanaRPairWizardViewModel @Inject constructor(
         val passwordInt = password.toIntOrNull() ?: return
 
         // Store to preferences
-        preferences.put(DanaStringKey.RName, device.name)
-        preferences.put(DanaIntKey.Password, passwordInt)
+        preferences.put(DanaStringNonKey.RName, device.name)
+        preferences.put(DanaIntNonKey.Password, passwordInt)
 
         _uiState.update {
             it.copy(
