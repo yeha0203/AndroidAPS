@@ -25,9 +25,9 @@ import app.aaps.pump.dana.R
 import app.aaps.pump.dana.compose.DanaOverviewViewModel
 import app.aaps.pump.dana.keys.DanaStringNonKey
 import app.aaps.pump.danars.DanaRSPlugin
-import app.aaps.pump.danars.services.BleTransport
-import app.aaps.pump.danars.services.PairingState
-import app.aaps.pump.danars.services.PairingStep
+import app.aaps.core.interfaces.pump.ble.BleTransport
+import app.aaps.core.interfaces.pump.ble.PairingState
+import app.aaps.core.interfaces.pump.ble.PairingStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
