@@ -13,6 +13,10 @@ import app.aaps.pump.danars.emulator.EmulatorBleTransport
 import app.aaps.pump.danars.emulator.NotificationPumpDisplay
 import app.aaps.pump.danars.encryption.EncryptionType
 import app.aaps.core.interfaces.pump.ble.BleTransport
+import app.aaps.core.interfaces.pump.rfcomm.RfcommTransport
+import app.aaps.pump.danar.emulator.DanaRPumpEmulator
+import app.aaps.pump.danar.emulator.EmulatorRfcommTransport
+import app.aaps.pump.danar.services.RealRfcommTransport
 import app.aaps.pump.danars.services.BleTransportImpl
 import dagger.Module
 import dagger.Provides
@@ -61,6 +65,30 @@ class DanaModules {
             )
         } else {
             bleTransportImpl
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideRfcommTransport(
+        config: Config,
+        realRfcommTransport: RealRfcommTransport,
+        aapsLogger: AAPSLogger,
+        preferences: Preferences
+    ): RfcommTransport {
+        return if (config.isEnabled(ExternalOptions.EMULATE_DANA_R)) {
+            var name = preferences.get(DanaStringNonKey.EmulatorDeviceName)
+            if (name.isEmpty()) {
+                name = "DAN${String.format("%05d", (0..99999).random())}EM"
+                preferences.put(DanaStringNonKey.EmulatorDeviceName, name)
+            }
+            EmulatorRfcommTransport(
+                emulator = DanaRPumpEmulator(aapsLogger = aapsLogger),
+                aapsLogger = aapsLogger,
+                deviceName = name
+            )
+        } else {
+            realRfcommTransport
         }
     }
 }

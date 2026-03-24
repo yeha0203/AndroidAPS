@@ -1,9 +1,9 @@
 package app.aaps.pump.danar
 
-import android.bluetooth.BluetoothSocket
 import android.os.SystemClock
 import app.aaps.core.interfaces.logging.AAPSLogger
 import app.aaps.core.interfaces.logging.LTag
+import app.aaps.core.interfaces.pump.rfcomm.RfcommSocket
 import app.aaps.core.utils.notifyAll
 import app.aaps.core.utils.waitMillis
 import app.aaps.pump.dana.DanaPump
@@ -20,7 +20,7 @@ import kotlin.math.max
  */
 class SerialIOThread(
     private val aapsLogger: AAPSLogger,
-    private val rfCommSocket: BluetoothSocket,
+    private val rfCommSocket: RfcommSocket,
     private val hashTable: MessageHashTableBase,
     private val danaPump: DanaPump
 ) : Thread() {

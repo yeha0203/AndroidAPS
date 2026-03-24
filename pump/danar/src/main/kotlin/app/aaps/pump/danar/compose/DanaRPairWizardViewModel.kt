@@ -1,15 +1,11 @@
 package app.aaps.pump.danar.compose
 
-import android.Manifest
-import android.bluetooth.BluetoothManager
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.compose.runtime.Stable
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import app.aaps.core.interfaces.logging.AAPSLogger
 import app.aaps.core.interfaces.logging.LTag
 import app.aaps.core.interfaces.pump.PumpSync
+import app.aaps.core.interfaces.pump.rfcomm.RfcommTransport
 import app.aaps.core.interfaces.queue.CommandQueue
 import app.aaps.core.interfaces.resources.ResourceHelper
 import app.aaps.core.interfaces.rx.AapsSchedulers
@@ -18,11 +14,9 @@ import app.aaps.core.interfaces.rx.events.EventInitializationChanged
 import app.aaps.core.keys.interfaces.Preferences
 import app.aaps.pump.dana.DanaPump
 import app.aaps.pump.dana.events.EventDanaRNewStatus
-import app.aaps.pump.dana.keys.DanaIntKey
 import app.aaps.pump.dana.keys.DanaIntNonKey
 import app.aaps.pump.dana.keys.DanaStringNonKey
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,7 +54,7 @@ class DanaRPairWizardViewModel @Inject constructor(
     private val pumpSync: PumpSync,
     private val rxBus: RxBus,
     private val aapsSchedulers: AapsSchedulers,
-    @ApplicationContext private val context: Context
+    private val rfcommTransport: RfcommTransport
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DanaRPairWizardUiState())
@@ -126,17 +120,9 @@ class DanaRPairWizardViewModel @Inject constructor(
     }
 
     fun refreshBondedDevices() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            _uiState.update { it.copy(bondedDevices = emptyList()) }
-            return
-        }
-
-        val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-        val devices = manager?.adapter?.bondedDevices
-            ?.filter { it.name != null && danaNamePattern.matches(it.name) }
-            ?.map { BondedDevice(name = it.name, address = it.address) }
-            ?.sortedBy { it.name }
-            ?: emptyList()
+        val devices = rfcommTransport.getBondedDevices()
+            .filter { danaNamePattern.matches(it.name) }
+            .map { BondedDevice(name = it.name, address = it.address) }
 
         _uiState.update { it.copy(bondedDevices = devices) }
     }

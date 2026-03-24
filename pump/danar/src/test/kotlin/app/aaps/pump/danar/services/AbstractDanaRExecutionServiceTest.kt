@@ -79,6 +79,7 @@ class AbstractDanaRExecutionServiceTest : TestBaseWithProfile() {
         testService.activePlugin = activePlugin
         testService.notificationManager = notificationManager
         testService.pumpEnactResultProvider = pumpEnactResultProvider
+        testService.rfcommTransport = mock()
         testService.injector = injector
     }
 
@@ -266,13 +267,12 @@ class AbstractDanaRExecutionServiceTest : TestBaseWithProfile() {
     }
 
     @Test
-    fun testGetBTSocketForSelectedPump_noBluetoothAdapter() {
+    fun testGetSocketForSelectedPump_deviceNotFound() {
         `when`(preferences.get(DanaStringNonKey.RName)).thenReturn("TestPump")
-        `when`(context.getSystemService(Context.BLUETOOTH_SERVICE)).thenReturn(bluetoothManager)
-        `when`(bluetoothManager.adapter).thenReturn(null)
+        `when`(testService.rfcommTransport.getSocketForDevice("TestPump")).thenReturn(null)
 
-        testService.getBTSocketForSelectedPump()
+        testService.getSocketForSelectedPump()
 
-        // Should handle null adapter gracefully
+        // Should handle null socket gracefully
     }
 }
