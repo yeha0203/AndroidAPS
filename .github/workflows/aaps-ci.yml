@@ -131,23 +131,6 @@ jobs:
           
           echo "✅ GDRIVE_CLIENT_ID and GDRIVE_REFRESH_TOKEN extracted from GDRIVE_OAUTH2"
 
-      - name: Retrieving Google Drive access token
-        run: |
-          echo "🔐 Getting Google OAuth2 access token..."
-          TOKEN_RESPONSE=$(curl -s -X POST https://oauth2.googleapis.com/token \
-            -d client_id="$GDRIVE_CLIENT_ID" \
-            -d refresh_token="$GDRIVE_REFRESH_TOKEN" \
-            -d grant_type=refresh_token)
-          ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r .access_token)
-          echo "::add-mask::$ACCESS_TOKEN"
-          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
-            echo "❌ Failed to get access token."
-            echo "$TOKEN_RESPONSE"
-            exit 1
-          fi
-          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
-          echo "✅ Access token obtained."
-
       - name: Checkout source code
         uses: actions/checkout@v4
 
