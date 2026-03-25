@@ -185,11 +185,6 @@ jobs:
 
       - name: Rename APKs with version
         run: |
-          mv app/build/outputs/apk/${{ env.VARIANT_FLAVOR }}/${{ env.VARIANT_TYPE }}/*.apk aaps-${{ env.VERSION }}${{ env.VERSION_SUFFIX }}.apk
-          mv wear/build/outputs/apk/${{ env.VARIANT_FLAVOR }}/${{ env.VARIANT_TYPE }}/*.apk aaps-wear-${{ env.VERSION }}${{ env.VERSION_SUFFIX }}.apk
-
-          - name: Rename APKs with version
-        run: |
           mv app/build/outputs/apk/full/release/*.apk aaps-3.4.1.0-dev.apk
           mv wear/build/outputs/apk/full/release/*.apk aaps-wear-3.4.1.0-dev.apk
 
